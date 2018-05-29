@@ -1,45 +1,57 @@
 import os
 import glob
 
-genes = []
+INFILE = 'data/genes.txt'
+OUTFLOW = ['output/readAndConvert.pickle', 'output/sequences.pickle']
 rightFormat = False
 
-input = "data/genes.txt"
-
-# rule all:
-# 	input:
-# 		"report.html"
+rule all:
+	input:
+		"output/report.html",
+#		"output/dag.svg"
 
 rule readAndConvert:
-	run:
-		print({input})
-		with open('data/genes.txt') as file:
-			for line in file:
-				if line.startswith("GeneID"):
-	                rightFormat = True
+	input:
+		{INFILE}
+	output:
+		{OUTFLOW[0]}
+	shell:
+		'python genes.py {INFILE} {output}'
+		# with open({input}) as file:
+		# 	for line in file:
+		# 		if line.startswith("GeneID"):
+	 #                rightFormat = True
+	 #                genes = genes + line
+  #               	print(line)
 
-            
-	# input:
-	# 	{input}
+rule getSequences:
+	input:
+		{OUTFLOW[0]}
+	output:
+		{OUTFLOW[1]}
+	shell:
+		'python sequences.py {input} {output}'
 
 #rule dag:
-	# output:
-		# 'model/dag.svg'
-	# shell:
-		# 'snakemake --forecall --dag| dot -Tsvg > {output}'
+#    output:
+#        "output/dag.svg"
+#    shell:
+#    	'snakemake --forceall --dag | dot -Tsvg {output}'
+rule report:
+	input:
+		{OUTFLOW[1]}
+	output:
+		"output/report.html"
+	run:
+		import pickle
+		from snakemake.utils import report
 
-# rule report:
-# 	input:
-# 		"data/Hello.txt"
-# 	output:
-# 		"output/report.html"
-# 	run:
-# 		from snakemake.utils import report
-# 		with open(input[0]) as txt:
-# 		    content = txt.readlines()
-# 		report("""
-# 		An example variant calling workflow
-# 		===================================
+		with open(input[0], "rb") as handle:
+		    content = pickle.load(handle)
 
-# 		The resulted line {genes}.
-# 		""", output[0], T1=input[0])
+		report("""
+		An example variant calling workflow
+		===================================
+
+		The resulted line {content}.
+		""", output[0], T1=input[0])
