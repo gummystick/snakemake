@@ -2,7 +2,7 @@ import os
 import glob
 
 INFILE = 'data/genes.txt'
-OUTFLOW = ['output/readAndConvert.pickle', 'output/sequences.pickle', "data/sequences/sequences.fasta", "data/rdf/sequences.hdt", "data/interProData.txt"]
+OUTFLOW = ['output/readAndConvert.pickle', 'output/sequences.pickle', "data/geneInf.txt", "data/sequences/sequences.fasta", "data/rdf/sequences.hdt", "data/interProData.txt", "data/RInput1.txt", "data/RInput2.txt", "output/GC.pdf"]
 rightFormat = False
 
 rule all:
@@ -14,40 +14,65 @@ rule readAndConvert:
 	input:
 		{INFILE}
 	output:
-		{OUTFLOW[0]}
+		{OUTFLOW[0]},
+
 	shell:
 		'python genes.py {INFILE} {output}'
-		# with open({input}) as file:
-		# 	for line in file:
-		# 		if line.startswith("GeneID"):
-	 #                rightFormat = True
-	 #                genes = genes + line
-  #               	print(line)
 
 rule getSequences:
 	input:
 		{OUTFLOW[0]}
 	output:
 		{OUTFLOW[1]},
-		{OUTFLOW[2]}
-	shell:
-		'python sequences.py {input} {output}'
-
-rule prepareSAPP:
-	input:
-		{OUTFLOW[2]}
-	output:
+		{OUTFLOW[2]},
 		{OUTFLOW[3]}
 	shell:
-		'mkdir data/rdf | java -jar SAPP/Conversion.jar -fasta2rdf -protein -id sequencesIPR -i {input} -o {output} -gene'
+		'python sequences.py {input} {output[0]}'
 
-rule interProScan:
+rule prepareSAPP:
 	input:
 		{OUTFLOW[3]}
 	output:
 		{OUTFLOW[4]}
 	shell:
+		'mkdir data/rdf | java -jar SAPP/Conversion.jar -fasta2rdf -protein -id sequencesIPR -i {input} -o {output} -gene'
+
+rule interProScan:
+	input:
+		{OUTFLOW[3]},
+		{OUTFLOW[4]}
+	output:
+		{OUTFLOW[5]}
+	shell:
 		'./shellRestIPR.sh'
+
+rule reformResults:
+	input:
+		{OUTFLOW[5]},
+		{OUTFLOW[2]}
+	output:
+		{OUTFLOW[6]},
+		{OUTFLOW[7]},
+		{OUTFLOW[8]}
+	run:
+		import subprocess
+		with open(input[0], 'r') as iprFile:
+			with open(output[0], 'w') as writeFile:
+				for line in iprFile:
+					if (line.startswith("G") or line.startswith("geneId")):
+						writeFile.write(line)
+					
+		with open(input[1], 'r') as geneInfFile:
+			with open(output[1], 'w') as writeFile:
+				for line in geneInfFile:
+					newline = "".join(line[1:len(line)-2]).replace("'", "")
+					writeFile.write(newline+"\n")
+
+		command = "Rscript interPro.R"+" "+ output[0]+" "+output[1]+" "+output[2]
+		process = subprocess.Popen(command.split(), stdout=subprocess.PIPE)
+		output, error = process.communicate()
+		if (error != None):
+			raise Exception("Something went wrong while executing: "+command+"\nerror: "+error)
 
 rule dag:
    output:
@@ -58,19 +83,19 @@ rule dag:
 
 rule report:
 	input:
-		{OUTFLOW[4]}
+		{OUTFLOW[3]},
+		{OUTFLOW[6]},
+		{OUTFLOW[7]},
+		{OUTFLOW[8]}
 	output:
 		"output/report.html"
 	run:
 		import pickle
 		from snakemake.utils import report
 
-		with open(input[0], "r") as handle:
-		     content = handle.readlines()
-
 		report("""
-		An example variant calling workflow
+		Analysis results of the given genes.
 		===================================
 
-		The resulted line {content}.
-		""", output[0], T1=input[0])
+		List of outputfiles: 
+		""", output[0], T1=input[0], T2=input[1], T3=input[2], T4=input[3])
