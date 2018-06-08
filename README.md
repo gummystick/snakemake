@@ -10,7 +10,7 @@ Contact:
 
 Description
 
-An automated workflow for gaining more information on geneId's.
+An automated workflow for gaining more information on gene-identifiers.
 Requirements
 System
 
