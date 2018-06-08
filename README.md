@@ -44,12 +44,21 @@ Conda environment
     Change env
     source activate eindOpdracht
 
-R
+R base
 
     Install R
     apt update
     apt -y install r-base
 
+R dependencies
+    
+    Run R and install the following packages(automatic installation is not working properly):
+    - seqinr
+    - Biostrings
+    - stringr
+    - reshape2
+    - ggplot2
+    
 SAPP
 
     Download the Conversion.jar, interProScan.jar, and HDTQuery.jar files from: http://download.systemsbiology.nl/sapp/
