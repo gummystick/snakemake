@@ -31,7 +31,9 @@ Dependencies
 
 Preparations
 
-To download the project files via the terminal use the following command: git clone "https://github.com/gummystick/snakemake.git"
+To download the project files via the terminal use the following command: 
+
+    git clone "https://github.com/gummystick/snakemake.git"
 
 Conda environment
 
