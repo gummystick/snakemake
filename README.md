@@ -53,7 +53,8 @@ R
 SAPP
 
     Download the Conversion.jar, interProScan.jar, and HDTQuery.jar files from: http://download.systemsbiology.nl/sapp/
-    and place them in a SAPP directory in the downloaded git repository.(must be in "snakemake" directory)
+    and place them in a SAPP directory in the downloaded git repository.(must be in "snakemake" directory) For more info on SAPP
+    see: https://sapp.gitlab.io/
     
 Usage of the workflow:
 
@@ -64,3 +65,13 @@ Usage of the workflow:
 Output
 
 After running the script several folders are created. In the "output" directory an report.html can be found. This contains the links to the most fital results. All results are stored in "data" and "output".
+
+Refs:
+- SAPP: functional genome annotation and analysis through a semantic framework using FAIR principles
+Koehorst, Jasper J. and van Dam, Jesse C.J. and Saccenti, Edoardo and Martins dos Santos, Vitor A.P. and Suarez-Diez, Maria and Schaap, Peter J.
+
+- Philip Jones, David Binns, Hsin-Yu Chang, Matthew Fraser, Weizhong Li, Craig McAnulla, Hamish McWilliam, John Maslen, Alex Mitchell, Gift Nuka, Sebastien Pesseat, Antony F. Quinn, Amaia Sangrador-Vegas, Maxim Scheremetjew, Siew-Yit Yong, Rodrigo Lopez, and Sarah Hunter (2014). InterProScan 5: genome-scale protein function classification. Bioinformatics, Jan 2014; doi:10.1093/bioinformatics/btu031
+
+- Köster, Johannes and Rahmann, Sven. “Snakemake - A scalable bioinformatics workflow engine”. Bioinformatics 2012.
+
+- Cock PA, Antao T, Chang JT, Chapman BA, Cox CJ, Dalke A, Friedberg I, Hamelryck T, Kauff F, Wilczynski B and de Hoon MJL (2009) Biopython: freely available Python tools for computational molecular biology and bioinformatics. Bioinformatics, 25, 1422-1423
