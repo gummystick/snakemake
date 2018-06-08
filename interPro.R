@@ -5,19 +5,19 @@
 
 #Import of packages
 packageList <- c("seqinr", "Biostrings", "stringr", "reshape2", "ggplot2")
-for (i in packageList){
-  print(i)
-  if (require(i) == FALSE){
-    install.packages(i)
-  } else {
-    library(i)
-  }
-}
-# library(seqinr)
-# library(Biostrings)
-# library(stringr)
-# library(reshape2)
-# library(ggplot2)
+# for (i in packageList){
+#   print(i)
+#   if (i %in% rownames(installed.packages(){
+#     install.packages(i)
+#   } else {
+#     library(i)
+#   }
+# }
+library(seqinr)
+library(Biostrings)
+library(stringr)
+library(reshape2)
+library(ggplot2)
 
 #For commandline parameter usage
 args = commandArgs(trailingOnly = TRUE)
