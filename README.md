@@ -27,6 +27,7 @@ Dependencies
     openjdk version "1.8.0_112"
     OpenJDK Runtime Environment (Zulu 8.19.0.1-linux64) (build 1.8.0_112-b16)
     OpenJDK 64-Bit Server VM (Zulu 8.19.0.1-linux64) (build 25.112-b16, mixed mode)
+    SAPP (Conversion, interProScan and HDTQuery versions uploaded on 2018-06-03 06:44)
 
 
 Preparations
@@ -44,10 +45,16 @@ Conda environment
     source activate eindOpdracht
 
 R
+
     Install R
     apt update
     apt -y install r-base
 
+SAPP
+
+    Download the Conversion.jar, interProScan.jar, and HDTQuery.jar files from: http://download.systemsbiology.nl/sapp/
+    and place them in a SAPP directory in the downloaded git repository.(must be in "snakemake" directory)
+    
 Usage of the workflow:
 
     After installation of all requirements go to the "snakemake" folder in the git repository.
