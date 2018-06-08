@@ -9,7 +9,6 @@ for (i in packageList){
   print(i)
   if (require(i) == FALSE){
     install.packages(i)
-  }
   } else {
     library(i)
   }
