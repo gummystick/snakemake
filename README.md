@@ -53,7 +53,8 @@ R
 SAPP
 
     Download the Conversion.jar, interProScan.jar, and HDTQuery.jar files from: http://download.systemsbiology.nl/sapp/
-    and place them in a SAPP directory in the downloaded git repository.(must be in "snakemake" directory) For more info on SAPP
+    and place them in a SAPP directory in the downloaded git repository.(must be in "snakemake" directory)  
+    First execution of SAPP will take a little while, because the required dependencies are downloaded. For more info on SAPP
     see: https://sapp.gitlab.io/
     
 Usage of the workflow:
