@@ -11,8 +11,8 @@ Contact:
 Description
 
 An automated workflow for gaining more information on gene-identifiers.
-Requirements
-System
+
+Requirements System
 
     Linux operating system. The software is developed on Linux Ubuntu 16.04
     WARNING: Difficulties can arise, when another version of opperating system is used.
