@@ -39,7 +39,7 @@ for (gene in frame2$V1){
   print(paste(gene, frame2$V3[frame2$V1 == gene], unique(frame$begin[frame$geneId == gene]), unique(frame$eind[frame$geneId == gene]), unique(frame$eind[frame$geneId == gene])-unique(frame$begin[frame$geneId == gene])))
   totalContent <- c(totalContent, unique(frame$eind[frame$geneId == gene])[1]-unique(frame$begin[frame$geneId == gene])[1])
   genes <- c(genes, gene)
-  fasta <- read.fasta(paste(trimws(frame2$V3[frame2$V1 == gene]),".fasta", sep=""), seqtype = "DNA", as.string = TRUE)
+  fasta <- read.fasta(paste("data/sequences/",trimws(frame2$V3[frame2$V1 == gene]),".fasta", sep=""), seqtype = "DNA", as.string = TRUE)
   subSeq <- tryCatch(subseq(fasta[[1]][1], start=unique(frame$begin[frame$geneId == gene])[1], end=unique(frame$eind[frame$geneId == gene])[1]), error = function(e){
     print("ERROR")
   })
