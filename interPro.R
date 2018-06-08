@@ -1,4 +1,9 @@
 #!/usr/bin/env Rscript
+#author: william sies
+#date: vrijdag 8 juni 23:06
+###########################
+
+#Import of packages
 packageList <- c("seqinr", "Biostrings", "stringr", "reshape2", "ggplot2")
 for (i in packageList){
   print(i)
@@ -15,6 +20,7 @@ for (i in packageList){
 # library(reshape2)
 # library(ggplot2)
 
+#For commandline parameter usage
 args = commandArgs(trailingOnly = TRUE)
 if (length(args)==0){
   stop("Please provide inputfile as arg", call.=FALSE)
@@ -23,9 +29,10 @@ if (length(args)==0){
 }
 
 #import gene and protein info
-frame <- read.csv(args[1])#"/home/william/eindOpdracht/snakemake/data/RInput1.txt")
-frame2 <- read.csv(args[2], header = FALSE)#"/home/william/eindOpdracht/snakemake/data/RInput2.txt", header = FALSE)
-#import seqs
+frame <- read.csv(args[1])
+frame2 <- read.csv(args[2], header = FALSE)
+
+#Gather information and calculate GC content
 gcContent <- c()
 totalContent <- c()
 genes <- c()
@@ -47,10 +54,11 @@ for (gene in frame2$V1){
   print(gcContent)
 }
 
-#make gc matrix
+#Calculate GC pergentage and make data frame
 df <- data.frame(gene=genes, GC=gcContent/totalContent*100)
 df[is.na(df)] <- 0
-#plot GC
+
+#Plot GC
 pdf(args[3])
   p <- ggplot(data=df, aes(x=gene, y=GC)) +
     geom_bar(stat="identity")
